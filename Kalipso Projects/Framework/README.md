@@ -12,11 +12,13 @@ All global action always return 4 consecutive values by the specified order.
 
 In case of any error the GA will insert information in the table framework_Logs
 
+------
+
+### Available Global Actions
 
 
-#### Available Global Actions
 
-##### framework_log_event
+#### framework_log_event
 
 Logs an event/error into the framework_Logs local table. Only keeps seven days of logs.
 
@@ -29,7 +31,9 @@ Entry parameters:
 
 Returns: Nothing
 
-##### framework_create_parameter
+
+
+#### framework_create_parameter (01X0000)
 
 Creates a parameter with a specified value and type in the local database framework_Parameters.
 
