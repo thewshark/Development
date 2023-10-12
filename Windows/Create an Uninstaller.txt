@@ -1,0 +1,7 @@
+Registry keys on x54 based system application:
+
+HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall
+
+On x86 application systems:
+
+HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion
