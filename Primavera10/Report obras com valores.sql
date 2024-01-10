@@ -217,7 +217,34 @@ WHERE (O.ID = Main.ID OR O.ObraPaiID = Main.ID) AND C.Data <= GETDATE() AND O.Ti
 
 FROM COP_Autos af1
     INNER JOIN COP_Obras of1 ON af1.ObraID = of1.ID
-WHERE (ObraID = Main.ID OR (of1.ObraPaiID = Main.ID AND of1.Tipo = 'C')) AND af1.Data <= GETDATE())) AS PorFaturar
+WHERE (ObraID = Main.ID OR (of1.ObraPaiID = Main.ID AND of1.Tipo = 'C')) AND af1.Data <= GETDATE())) 
+-
+CONVERT(DECIMAL(19,2), (SELECT  
+	ISNULL(SUM(A.TMenosValor), 0)
+FROM COP_Autos A WITH (NOLOCK)
+    INNER JOIN COP_Obras      O WITH (NOLOCK) ON O.ID = A.ObraID
+    LEFT  JOIN Geral_Entidade E WITH (NOLOCK) ON E.EntidadeId = O.EntidadeIDA
+    LEFT  JOIN (
+        SELECT TOP 1 OCA.AutoID, OC.Codigo + '/' + CAST(OC.Numero AS VARCHAR(20)) AS CertCod
+        FROM COP_ObraCertificacoes OC WITH (NOLOCK)
+            INNER JOIN COP_ObraCertificacoesAutos OCA WITH (NOLOCK) ON OCA.ObraCertificacaoID = OC.ID
+        WHERE OCA.Facturado = 1
+        GROUP BY OCA.AutoID, OC.Codigo, OC.Numero
+    ) AS C ON C.AutoID = A.ID
+    LEFT  JOIN (
+        SELECT LC.AutoID
+        FROM LinhasCompras LC WITH (NOLOCK)
+            INNER JOIN COP_Obras          OB  WITH (NOLOCK) ON OB.ID = LC.ObraID
+            INNER JOIN CabecCompras       CC  WITH (NOLOCK) ON CC.Id = LC.IdCabecCompras
+            INNER JOIN CabecComprasStatus CCS WITH (NOLOCK) ON CCS.IdCabecCompras = CC.Id
+            LEFT  JOIN LinhasCompras      LCE WITH (NOLOCK) ON LCE.IDLinhaEstorno = LC.Id
+        WHERE (OB.ID = Main.ID OR OB.ObraPaiID = Main.ID) AND OB.Tipo = 'S' AND LC.AutoID IS NOT NULL
+            AND CCS.Anulado = 0 AND LC.IDLinhaEstorno IS NULL AND LCE.Id IS NULL AND LC.Quantidade <> 0 AND LC.PrecUnit <> 0
+        GROUP BY LC.AutoID
+    ) AS F ON F.AutoID = A.ID
+WHERE (O.ID = Main.ID OR O.ObraPaiID = Main.ID) AND O.Tipo = 'S'))
+
+AS PorFaturar
 
 -- END POR FATURAR *******************************************************************************************************
 
