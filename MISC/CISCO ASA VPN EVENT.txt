@@ -1,0 +1,22 @@
+  722022
+ Error Message %ASA-6-722022: Group group-name User user-name IP addr (TCP | UDP) connection established (with | without) compression
+ Explanation The TCP or UDP connection was established with or without compression.
+ Recommended Action None required.
+ 
+ 722023
+ Error Message %ASA-6-722023: Group group User user-name IP IP_address SVC connection terminated {with|without} compression
+ Explanation The SVC terminated either with or without compression.
+ Recommended Action None required.
+ 
+ 
+ Configure Basic Syslog with ASDM
+ This procedure demonstrates the ASDM configuration for all available syslog destinations.
+ In order to enable logging on the ASA, first configure the basic logging parameters. Choose Configuration > Features > Properties > Logging > Logging Setup. Check the Enable logging check box in order to enable syslogs.
+ In order to configure an external server as the destination for syslogs, choose Syslog Servers in Logging and click Add in order to add a syslog server. Enter the syslog server details in the Add Syslog Server box and choose OK when you are done.
+ Choose E-Mail Setup in Logging in order to send syslog messages as e-mails to specific recipients. Specify the source e-mail address in the Source E-Mail Address box and choose Add in order to configure the destination e-mail address of the e-mail recipients and the message severity level. Click OK when you are done.
+ Choose Device Administration, Logging, choose SMTP, and enter the Primary Server IP Address in order to specify the SMTP server IP address.
+ If you want to send syslogs as SNMP traps, you must first define an SNMP server. Choose SNMP in in the Management Access menu in order to specify the address of the SNMP management stations and their specific properties.
+ Choose Add in order to add an SNMP management station. Enter the SNMP host details and click OK.
+ In order to enable logs to be sent to any of the prior mentioned destinations, choose Logging Filters in the logging section. This presents you with each possible logging destination and the current level of logs that are sent to those destinations. Choose the desired Logging Destination and click Edit. In this example, the 'Syslog Servers' destination is modified.
+ Choose an appropriate severity, in this case Informational, from the Filter on severity drop-down list. Click OK when you are done.
+ Click Apply after you return to the Logging Filters window.
